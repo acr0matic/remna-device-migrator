@@ -1,0 +1,36 @@
+services:
+    # ── Happ → Incy device migrator ───────────────────────────────────────────
+    # Sits BETWEEN subscription-page and Remnawave Panel.
+    # subscription-page sends requests here; we do the migration then forward.
+    remna-device-migrator:
+        build: .
+        container_name: remna-device-migrator
+        hostname: remna-device-migrator
+        restart: always
+        env_file:
+            - .env
+        networks:
+            - remnawave-network
+
+    # ── Remnawave Subscription Page ───────────────────────────────────────────
+    # IMPORTANT: REMNAWAVE_PANEL_URL in .env.subscription-page must point to
+    # http://remna-device-migrator:3100 (not directly to the panel).
+    remnawave-subscription-page:
+        image: remnawave/subscription-page:latest
+        container_name: remnawave-subscription-page
+        hostname: remnawave-subscription-page
+        restart: always
+        env_file:
+            - .env.subscription-page
+        ports:
+            - '127.0.0.1:3010:3010'
+        networks:
+            - remnawave-network
+        depends_on:
+            - remna-device-migrator
+
+networks:
+    remnawave-network:
+        name: remnawave-network
+        driver: bridge
+        external: true

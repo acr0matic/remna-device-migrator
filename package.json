@@ -1,0 +1,27 @@
+{
+  "name": "remna-device-migrator",
+  "version": "1.0.0",
+  "description": "Middleware proxy for automatic migration of Happ devices to Incy in Remnawave",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "dev:watch": "nodemon --exec ts-node src/index.ts"
+  },
+  "dependencies": {
+    "axios": "1.7.7",
+    "dotenv": "16.4.5",
+    "express": "4.21.0",
+    "http-proxy-middleware": "3.0.2",
+    "winston": "3.15.0",
+    "winston-daily-rotate-file": "5.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.21",
+    "@types/node": "22.5.5",
+    "nodemon": "3.1.7",
+    "ts-node": "10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
