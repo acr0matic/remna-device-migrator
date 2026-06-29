@@ -21,10 +21,16 @@
 git clone https://github.com/acr0matic/remna-device-migrator /opt/remna-device-migrator
 cd /opt/remna-device-migrator
 
-# Настроить .env файлы
+# Настроить .env файл для прокси
 cp .env.example .env
+nano .env
+
+# Настроить .env файл для страницы подписки
 cp .env.subscription-page.example .env.subscription-page
-# Заполнить REMNAWAVE_PANEL_URL и REMNAWAVE_API_TOKEN
+nano .env.subscription-page
+
+# Создать сеть Remnawave (если ещё нет)
+docker network create remnawave-network
 
 # Запустить через docker-compose
 docker compose up -d --build
