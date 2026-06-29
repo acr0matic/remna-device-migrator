@@ -146,17 +146,18 @@ export function createReverseProxy(targetUrl: string): RequestHandler {
     on: {
       error: (err, req, res) => {
         // Detailed error logging
+        const errorCode = (err as any).code || 'UNKNOWN_CODE';
         logger.error('Proxy error', {
           url: (req as Request).url,
           method: (req as Request).method,
           target: targetUrl,
-          errorCode: err.code || 'UNKNOWN_CODE',
+          errorCode,
           errorMessage: err.message,
           errorStack: err.stack,
         });
         // res can be ServerResponse or Socket; only ServerResponse has headersSent
         if ('headersSent' in res && !res.headersSent) {
-          (res as Response).status(502).json({ error: 'Bad Gateway', code: err.code || 'PROXY_ERROR' });
+          (res as Response).status(502).json({ error: 'Bad Gateway', code: errorCode || 'PROXY_ERROR' });
         }
       },
     },
