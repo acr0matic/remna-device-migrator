@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import { initLogger, getLogger } from './logger';
 import { DeviceManager } from './device-manager';
-import { createRemnawaveClient } from './remnawave-client-factory';
+import { createRemnawaveClient, SUPPORTED_API_VERSIONS } from './remnawave-client-factory';
 import { createMigrationMiddleware, createReverseProxy } from './proxy';
 import { AppConfig, MigrationRule, ClientApp } from './types';
 
@@ -55,8 +55,8 @@ function loadConfig(): AppConfig {
     PORT: parseInt(process.env['PORT'] ?? '3100', 10),
     REMNAWAVE_PANEL_URL: required('REMNAWAVE_PANEL_URL'),
     REMNAWAVE_API_TOKEN: required('REMNAWAVE_API_TOKEN'),
-    // API version: 'v2' (Remnawave v280) or 'v3' (v3411); aliases '280'/'3411' also accepted
-    REMNAWAVE_API_VERSION: process.env['REMNAWAVE_API_VERSION'] ?? 'v2',
+    // API version: '2' (Remnawave v280) or '3' (v3411)
+    REMNAWAVE_API_VERSION: (process.env['REMNAWAVE_API_VERSION'] ?? '2').trim().toLowerCase(),
     // Default pattern captures the last path segment: /sub/AbCdEfGh → AbCdEfGh
     SUB_PATH_REGEX: process.env['SUB_PATH_REGEX'] ?? '\\/([a-zA-Z0-9_-]{4,})(?:[\\/?]|$)',
     API_TIMEOUT_MS: parseInt(process.env['API_TIMEOUT_MS'] ?? '5000', 10),
@@ -67,6 +67,16 @@ function loadConfig(): AppConfig {
 
   if (missing.length > 0) {
     console.error(`[FATAL] Missing required environment variables: ${missing.join(', ')}`);
+    process.exit(1);
+  }
+
+  // Проверяем версию API заранее: некорректное значение должно завершать работу
+  // через путь ошибки конфигурации [FATAL], а не падать позже как unhandled rejection
+  if (!SUPPORTED_API_VERSIONS.includes(config.REMNAWAVE_API_VERSION)) {
+    console.error(
+      `[FATAL] Invalid REMNAWAVE_API_VERSION: ${config.REMNAWAVE_API_VERSION}. ` +
+      `Supported versions: ${SUPPORTED_API_VERSIONS.join(', ')}`
+    );
     process.exit(1);
   }
 

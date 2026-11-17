@@ -55,7 +55,7 @@ src/
 - `PORT` — порт прокси (по умолчанию 3100)
 - `REMNAWAVE_PANEL_URL` — URL Remnawave Panel
 - `REMNAWAVE_API_TOKEN` — API токен с правами `users:read`, `users:write`
-- `REMNAWAVE_API_VERSION` — версия Remnawave API (`v2` для v280, `v3` для v3411, по умолчанию `v2`)
+- `REMNAWAVE_API_VERSION` — версия Remnawave API (`2` для v280, `3` для v3411, по умолчанию `2`)
 - `MIGRATION_RULES` — правила миграции в формате JSON (по умолчанию Happ → Incy)
 - `DRY_RUN` — `true` для тестирования без удаления устройств
 - `LOG_LEVEL` — уровень логирования (error/warn/info/debug)

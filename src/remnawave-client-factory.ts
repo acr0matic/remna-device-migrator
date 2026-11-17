@@ -5,6 +5,12 @@ import { AppConfig } from './types';
 import { getLogger } from './logger';
 
 /**
+ * Поддерживаемые значения переменной REMNAWAVE_API_VERSION.
+ * '2' — API v280 (RemnawaveClientV2), '3' — API v3411 (RemnawaveClientV3).
+ */
+export const SUPPORTED_API_VERSIONS: readonly string[] = ['2', '3'];
+
+/**
  * Создаёт экземпляр RemnawaveClient на основе версии API из конфигурации.
  *
  * @param config - конфигурация приложения
@@ -13,13 +19,12 @@ import { getLogger } from './logger';
  */
 export function createRemnawaveClient(config: AppConfig): RemnawaveClient {
   const logger = getLogger();
-  const version = config.REMNAWAVE_API_VERSION.toLowerCase();
+  const version = (config.REMNAWAVE_API_VERSION ?? '').trim().toLowerCase();
 
   logger.info('Creating Remnawave client', { version });
 
   switch (version) {
-    case 'v2':
-    case '280':
+    case '2':
       logger.info('Using RemnawaveClientV2 (API v280)');
       return new RemnawaveClientV2(
         config.REMNAWAVE_PANEL_URL,
@@ -28,8 +33,7 @@ export function createRemnawaveClient(config: AppConfig): RemnawaveClient {
         config.DRY_RUN,
       );
 
-    case 'v3':
-    case '3411':
+    case '3':
       logger.info('Using RemnawaveClientV3 (API v3411)');
       return new RemnawaveClientV3(
         config.REMNAWAVE_PANEL_URL,
@@ -41,7 +45,7 @@ export function createRemnawaveClient(config: AppConfig): RemnawaveClient {
     default:
       throw new Error(
         `Unsupported REMNAWAVE_API_VERSION: ${config.REMNAWAVE_API_VERSION}. ` +
-        `Supported versions: v2, 280, v3, 3411`
+        `Supported versions: ${SUPPORTED_API_VERSIONS.join(', ')}`
       );
   }
 }

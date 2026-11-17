@@ -32,20 +32,9 @@ export interface GetDevicesResponse {
   };
 }
 
-// Response from GET /api/users/by-short-uuid/{shortUuid}
-export interface GetUserByShortUuidResponse {
-  response: {
-    uuid: string;
-    username: string;
-    shortUuid: string;
-    status: string;
-    hwidDeviceLimit: number | null;
-  };
-}
-
 // Унифицированная информация о пользователе для обеих версий API
 export interface UserInfo {
-  id: string | number;  // uuid для v2, number для v3
+  id: string | number;  // uuid для API v2, number для API v3
   username: string;
   shortUuid: string;
 }
@@ -68,7 +57,7 @@ export interface GetUserByShortUuidResponseV3 {
     username: string;
     status: string;
     hwidDeviceLimit: number | null;
-    // ... другие поля из v3411
+    // Прочие поля, возвращаемые API v3411
   };
 }
 
@@ -82,7 +71,7 @@ export interface MigrationRule {
 
 // Result of a migration operation for one user
 export interface MigrationResult {
-  userId: string;  // Изменено с userUuid на userId
+  userId: string;  // Идентификатор пользователя: uuid (API v2) или number (API v3)
   rule: MigrationRule;
   targetPlatform: Platform | null;
   deletedHwids: string[];
@@ -96,7 +85,7 @@ export interface AppConfig {
   PORT: number;
   REMNAWAVE_PANEL_URL: string;
   REMNAWAVE_API_TOKEN: string;
-  REMNAWAVE_API_VERSION: string;  // NEW: версия API (v2/v3)
+  REMNAWAVE_API_VERSION: string;  // Версия API: '2' (v280) или '3' (v3411)
   SUB_PATH_REGEX: string;
   API_TIMEOUT_MS: number;
   DRY_RUN: boolean;

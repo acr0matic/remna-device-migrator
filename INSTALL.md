@@ -118,13 +118,13 @@ docker compose down                            # остановка всех с�
 ## Выбор версии Remnawave API
 
 Сервис поддерживает две версии Remnawave API:
-- **v2** (по умолчанию) - для API версии 280
-- **v3** - для API версии 3411
+- **2** (по умолчанию) - для API версии 280
+- **3** - для API версии 3411
 
 Укажите версию в `.env` файле:
 
 ```env
-REMNAWAVE_API_VERSION=v2  # или v3
+REMNAWAVE_API_VERSION=2  # или 3
 ```
 
 **Важно:** Убедитесь, что версия соответствует вашей версии Remnawave Panel.
@@ -138,7 +138,7 @@ REMNAWAVE_API_VERSION=v2  # или v3
 | `PORT`                 | нет         | `3100`                                            | Порт прокси-сервера                                                      |
 | `REMNAWAVE_PANEL_URL`  | **да**      | —                                                 | URL Remnawave Panel (без `/` в конце)                                    |
 | `REMNAWAVE_API_TOKEN`  | **да**      | —                                                 | Bearer-токен Remnawave API                                               |
-| `REMNAWAVE_API_VERSION`| нет         | `v2`                                              | Версия Remnawave API: `v2` (API 280) или `v3` (API 3411)                 |
+| `REMNAWAVE_API_VERSION`| нет         | `2`                                               | Версия Remnawave API: `2` (API 280) или `3` (API 3411)                   |
 | `SUB_PATH_REGEX`       | нет         | `\/api\/sub\/([a-zA-Z0-9_-]+)`                    | Regex с 1 группой для извлечения shortUUID из URL подписки               |
 | `MIGRATION_RULES`      | нет         | (см. ниже)                                        | Правила миграции в формате JSON-строки                                   |
 | `API_TIMEOUT_MS`       | нет         | `5000`                                            | Таймаут (мс) для запросов к Remnawave API                                |
