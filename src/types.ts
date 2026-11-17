@@ -82,7 +82,7 @@ export interface MigrationRule {
 
 // Result of a migration operation for one user
 export interface MigrationResult {
-  userUuid: string;
+  userId: string;  // Изменено с userUuid на userId
   rule: MigrationRule;
   targetPlatform: Platform | null;
   deletedHwids: string[];
