@@ -43,6 +43,35 @@ export interface GetUserByShortUuidResponse {
   };
 }
 
+// Унифицированная информация о пользователе для обеих версий API
+export interface UserInfo {
+  id: string | number;  // uuid для v2, number для v3
+  username: string;
+  shortUuid: string;
+}
+
+// Типы ответов для разных версий API
+export interface GetUserByShortUuidResponseV2 {
+  response: {
+    uuid: string;
+    username: string;
+    shortUuid: string;
+    status: string;
+    hwidDeviceLimit: number | null;
+  };
+}
+
+export interface GetUserByShortUuidResponseV3 {
+  response: {
+    id: number;
+    shortUuid: string;
+    username: string;
+    status: string;
+    hwidDeviceLimit: number | null;
+    // ... другие поля из v3411
+  };
+}
+
 // Migration rule defined in configuration
 export interface MigrationRule {
   sourceApp: ClientApp;        // From which app we are migrating (the one to delete)
