@@ -96,6 +96,7 @@ export interface AppConfig {
   PORT: number;
   REMNAWAVE_PANEL_URL: string;
   REMNAWAVE_API_TOKEN: string;
+  REMNAWAVE_API_VERSION: string;  // NEW: версия API (v2/v3)
   SUB_PATH_REGEX: string;
   API_TIMEOUT_MS: number;
   DRY_RUN: boolean;
