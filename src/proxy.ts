@@ -115,7 +115,7 @@ export function createMigrationMiddleware(
         return;
       }
 
-      await deviceManager.migrateDevices(user.uuid, activeRule, requestPlatform);
+      await deviceManager.migrateDevices(user.id, activeRule, requestPlatform);
     } catch (err) {
       logger.error('Unexpected error during migration', {
         shortUuid,
