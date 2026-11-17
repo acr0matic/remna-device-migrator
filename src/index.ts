@@ -54,6 +54,8 @@ function loadConfig(): AppConfig {
     PORT: parseInt(process.env['PORT'] ?? '3100', 10),
     REMNAWAVE_PANEL_URL: required('REMNAWAVE_PANEL_URL'),
     REMNAWAVE_API_TOKEN: required('REMNAWAVE_API_TOKEN'),
+    // API version: 'v2' (Remnawave v280) or 'v3' (v3411); aliases '280'/'3411' also accepted
+    REMNAWAVE_API_VERSION: process.env['REMNAWAVE_API_VERSION'] ?? 'v2',
     // Default pattern captures the last path segment: /sub/AbCdEfGh → AbCdEfGh
     SUB_PATH_REGEX: process.env['SUB_PATH_REGEX'] ?? '\\/([a-zA-Z0-9_-]{4,})(?:[\\/?]|$)',
     API_TIMEOUT_MS: parseInt(process.env['API_TIMEOUT_MS'] ?? '5000', 10),
@@ -78,6 +80,7 @@ async function main(): Promise<void> {
   logger.info('Starting remna-device-migrator', {
     port: config.PORT,
     target: config.REMNAWAVE_PANEL_URL,
+    apiVersion: config.REMNAWAVE_API_VERSION,
     subPathRegex: config.SUB_PATH_REGEX,
     dryRun: config.DRY_RUN,
     logLevel: config.LOG_LEVEL,
