@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import { initLogger, getLogger } from './logger';
 import { DeviceManager } from './device-manager';
+import { createRemnawaveClient } from './remnawave-client-factory';
 import { createMigrationMiddleware, createReverseProxy } from './proxy';
 import { AppConfig, MigrationRule, ClientApp } from './types';
 
@@ -91,12 +92,8 @@ async function main(): Promise<void> {
     logger.warn('DRY RUN mode is enabled — no devices will actually be deleted');
   }
 
-  const deviceManager = new DeviceManager(
-    config.REMNAWAVE_PANEL_URL,
-    config.REMNAWAVE_API_TOKEN,
-    config.API_TIMEOUT_MS,
-    config.DRY_RUN,
-  );
+  const remnawaveClient = createRemnawaveClient(config);
+  const deviceManager = new DeviceManager(remnawaveClient);
 
   const subPathRegex = new RegExp(config.SUB_PATH_REGEX);
 
